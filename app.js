@@ -5,6 +5,7 @@ const genreRouter = require("./routes/genres");
 const app = express();
 const mongoose = require("mongoose");
 const customerRouter = require("./routes/customers");
+const movieRouter = require("./routes/movies");
 require("dotenv").config();
 const port = process.env.PORT || 3000;
 
@@ -14,6 +15,7 @@ app.use(helmet());
 app.use(morgan("tiny"));
 app.use("/genres", genreRouter);
 app.use("/customers", customerRouter);
+app.use("/movies", movieRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello Welcome to Vidly!");
