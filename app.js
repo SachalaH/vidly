@@ -10,6 +10,7 @@ const customerRouter = require("./routes/customers");
 const movieRouter = require("./routes/movies");
 const rentalRouter = require("./routes/rentals");
 const userRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
 require("dotenv").config();
 const port = process.env.PORT || 3000;
 
@@ -22,6 +23,7 @@ app.use("/customers", customerRouter);
 app.use("/movies", movieRouter);
 app.use("/rentals", rentalRouter);
 app.use("/users", userRouter);
+app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello Welcome to Vidly!");

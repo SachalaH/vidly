@@ -1,4 +1,5 @@
 const { User, validateUser } = require("../models/user");
+const bcrypt = require("bcrypt");
 const express = require("express");
 const userRouter = express.Router();
 const _ = require("lodash");
@@ -23,9 +24,14 @@ userRouter.post("/", async (req, res) => {
   // if data is not proper then send bad request
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-  //create User
 
+  // Check if the user already exists
+  const user = await User.findOne({ email: req.body.email });
+  if (user) return res.status(400).send("User already registered.");
+  //create User
   let newUser = new User(_.pick(req.body, ["name", "email", "password"]));
+  const salt = await bcrypt.genSalt(12);
+  newUser.password = await bcrypt.hash(newUser.password, salt);
   //save new User
   newUser = await newUser.save();
   //send it back to client
